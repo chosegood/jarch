@@ -23,11 +23,11 @@ package com.boothj5.jarch.cli;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import org.jdom2.JDOMException;
 
 import com.boothj5.jarch.analyser.Analyser;
+import com.boothj5.jarch.analyser.Analysis;
 import com.boothj5.jarch.analyser.RuleSetResult;
 import com.boothj5.jarch.analyser.Violation;
 import com.boothj5.jarch.configuration.JArchConfig;
@@ -84,10 +84,10 @@ public class Main {
             System.out.println("");
         } 
         
-        Analyser analyser = new Analyser(absSrcPath, conf.getLayerSpecs(), conf.getRuleSets());
-        List<RuleSetResult> results = analyser.analyse();
+        Analyser analyser = new Analyser(absSrcPath, conf.getImportSpecs(), conf.getLayerSpecs(), conf.getRuleSets());
+        Analysis analysis = analyser.analyse();
         
-        for (RuleSetResult result : results) {
+        for (RuleSetResult result : analysis.getRuleSetResults()) {
             System.out.println("--> Analysing rule-set \"" + result.getRuleSetName() + "\".");
             System.out.println("");
             
@@ -105,8 +105,8 @@ public class Main {
             }
         }
         
-        System.out.println("Module errors: " + analyser.getNumModuleErrors());
-        System.out.println("Layer errors: " + analyser.getNumLayerErrors());
+        System.out.println("Module errors: " + analysis.getNumModuleErrors());
+        System.out.println("Layer errors: " + analysis.getNumLayerErrors());
     }
     
     private static void validateArgs(String[] args) {

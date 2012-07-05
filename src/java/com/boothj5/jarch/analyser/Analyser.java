@@ -22,45 +22,38 @@
 package com.boothj5.jarch.analyser;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.boothj5.jarch.configuration.ImportSpec;
 import com.boothj5.jarch.configuration.LayerSpec;
 import com.boothj5.jarch.configuration.RuleSet;
 
 public class Analyser {
 
     private final String srcPath;
+    private final List<ImportSpec> importSpecs;
     private final Map<String, LayerSpec> layerSpecs;
     private final List<RuleSet> ruleSets;
-    private final List<RuleSetResult> ruleSetResults;
-    private int numModuleErrors;
-    private int numLayerErrors;
+    private Analysis analysis;
 
-    public Analyser(String srcPath, Map<String, LayerSpec> layerSpecs, List<RuleSet> ruleSets) {
+    public Analyser(String srcPath, List<ImportSpec> importSpecs, Map<String, LayerSpec> layerSpecs, 
+            List<RuleSet> ruleSets) {
         this.srcPath = srcPath;
+        this.importSpecs = importSpecs;
         this.layerSpecs = layerSpecs;
         this.ruleSets = ruleSets;
-        this.ruleSetResults = new ArrayList<RuleSetResult>();
+        this.analysis = new Analysis();
     }
     
-    public List<RuleSetResult> analyse() throws IOException {
+    public Analysis analyse() throws IOException {
         for (RuleSet ruleSet : ruleSets) {
-            RuleSetAnalyser analyser = new RuleSetAnalyser(srcPath, ruleSet, layerSpecs);
-            ruleSetResults.add(analyser.analyse());
-            numModuleErrors += analyser.getNumModuleErrors();
-            numLayerErrors += analyser.getNumLayerErrors();
+            RuleSetAnalyser ruleSetAnalyser = new RuleSetAnalyser(srcPath, ruleSet, layerSpecs);
+            analysis.addRuleSetResult(ruleSetAnalyser.analyse());
+            analysis.addNumModuleErrors(ruleSetAnalyser.getNumModuleErrors());
+            analysis.addNumLayerErrors(ruleSetAnalyser.getNumLayerErrors());
         }
         
-        return ruleSetResults;
-    }
-    
-    public int getNumModuleErrors() {
-        return numModuleErrors;
-    }
-    
-    public int getNumLayerErrors() {
-        return numLayerErrors;
+        return analysis;
     }
 }

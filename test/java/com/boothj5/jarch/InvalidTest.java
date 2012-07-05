@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.boothj5.jarch.analyser.Analyser;
+import com.boothj5.jarch.analyser.Analysis;
 import com.boothj5.jarch.analyser.RuleSetResult;
 import com.boothj5.jarch.analyser.Violation;
 import com.boothj5.jarch.configuration.JArchConfig;
@@ -24,37 +25,37 @@ public class InvalidTest {
     private String absSrcPath;
     private JArchConfig conf;
     private Analyser analyser;
-    private List<RuleSetResult> results;
+    private Analysis analysis;
     
     @Before
     public void setUp() throws IOException, JDOMException {
         File srcDir = new File(srcPath);
         absSrcPath = srcDir.getAbsolutePath();
         conf = JArchConfigReader.parse(configFile);
-        analyser = new Analyser(absSrcPath, conf.getLayerSpecs(), conf.getRuleSets());
-        results = analyser.analyse();
+        analyser = new Analyser(absSrcPath, conf.getImportSpecs(), conf.getLayerSpecs(), conf.getRuleSets());
+        analysis = analyser.analyse();
     }
     
     @Test
     public void analyserReturnsCorrectModuleErrorCount() throws IOException {
-        assertEquals(15, analyser.getNumModuleErrors());
+        assertEquals(15, analysis.getNumModuleErrors());
     }
     
     @Test
     public void analyserReturnsCorrectLayerErrorCount() throws IOException {
-        assertEquals(8, analyser.getNumLayerErrors());
+        assertEquals(8, analysis.getNumLayerErrors());
     }
 
     @Test 
     public void analyserReturnsCorrectNumberOfRuleSetResults() {
-        assertEquals(2, results.size());
+        assertEquals(2, analysis.getRuleSetResults().size());
     }
     
     @Test 
     public void analyserReturnsApplicationModuleDependenciesViolations() {
         boolean found = false;
         
-        for (RuleSetResult result : results) {
+        for (RuleSetResult result : analysis.getRuleSetResults()) {
             if (result.getRuleSetName().equals("application-module-dependencies")) {
                 found = true;
             }
@@ -67,7 +68,7 @@ public class InvalidTest {
     public void analyserReturnsProjectDependenciesViolations() {
         boolean found = false;
         
-        for (RuleSetResult result : results) {
+        for (RuleSetResult result : analysis.getRuleSetResults()) {
             if (result.getRuleSetName().equals("project-dependencies")) {
                 found = true;
             }
@@ -80,7 +81,7 @@ public class InvalidTest {
     public void analyserReturnsCorrectNumberOfApplicationModuleDependenciesViolations() {
         int numViolations = 0;
         
-        for (RuleSetResult result : results) {
+        for (RuleSetResult result : analysis.getRuleSetResults()) {
             if (result.getRuleSetName().equals("application-module-dependencies")) {
                 numViolations = result.getViolations().size();
             }
@@ -93,7 +94,7 @@ public class InvalidTest {
     public void analyserReturnsCorrectNumberOfProjectDependenciesViolations() {
         int numViolations = 0;
         
-        for (RuleSetResult result : results) {
+        for (RuleSetResult result : analysis.getRuleSetResults()) {
             if (result.getRuleSetName().equals("project-dependencies")) {
                 numViolations = result.getViolations().size();
             }
@@ -105,7 +106,7 @@ public class InvalidTest {
     @Test 
     public void analyserReturnsCorrectApplicationModuleDependenciesViolations() {
         Violation violation;
-        for (RuleSetResult result : results) {
+        for (RuleSetResult result : analysis.getRuleSetResults()) {
             if (result.getRuleSetName().equals("application-module-dependencies")) {
                 
                 violation = new Violation("MODULE: \"common\" must not import from \"person\"", 
@@ -169,7 +170,7 @@ public class InvalidTest {
     @Test 
     public void analyserReturnsCorrectProjectDependenciesViolations() {
         Violation violation;
-        for (RuleSetResult result : results) {
+        for (RuleSetResult result : analysis.getRuleSetResults()) {
             if (result.getRuleSetName().equals("project-dependencies")) {
 
                 violation = new Violation("MODULE: \"common\" must not import from \"application\"",

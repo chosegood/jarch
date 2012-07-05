@@ -26,12 +26,18 @@ import java.util.Map;
 
 public class JArchConfig {
    
+    private final List<ImportSpec> importSpecs;
     private final Map<String, LayerSpec> layerSpecs;
     private final List<RuleSet> ruleSets;
     
-    public JArchConfig(Map<String, LayerSpec> layerSpecs, List<RuleSet> ruleSets) {
+    public JArchConfig(List<ImportSpec> importSpecs, Map<String, LayerSpec> layerSpecs, List<RuleSet> ruleSets) {
+        this.importSpecs = importSpecs;
         this.layerSpecs = layerSpecs;
         this.ruleSets = ruleSets;
+    }
+    
+    public List<ImportSpec> getImportSpecs() {
+        return importSpecs;
     }
 
     public Map<String, LayerSpec> getLayerSpecs() {

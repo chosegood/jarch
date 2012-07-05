@@ -47,6 +47,7 @@ public class JArchConfigReader {
             throw new RuntimeException("Error parsing config file.");
         }
         
+        List<ImportSpec> importSpecs = readImportSpecs(jarchConfig);
         Map<String, LayerSpec> layerSpecs = readLayerSpecs(jarchConfig);
         
         List<Element> docRuleSets = jarchConfig.getChildren("rule-set");
@@ -62,13 +63,29 @@ public class JArchConfigReader {
             ruleSets.add(ruleSet);
         }
         
-        JArchConfig conf = new JArchConfig(layerSpecs, ruleSets);
+        JArchConfig conf = new JArchConfig(importSpecs, layerSpecs, ruleSets);
         
         return conf;
     }
 
-    private static Map<String, LayerSpec> readLayerSpecs(Element ruleSet) {
-        List<Element> docLayerSpecs = ruleSet.getChildren("layer-spec");
+    private static List<ImportSpec> readImportSpecs(Element jarchConfig) {
+        List<Element> docImportSpecs = jarchConfig.getChildren("import-spec");
+        List<ImportSpec> importSpecs = new ArrayList<ImportSpec>();
+        
+        for(Element docImportSpec : docImportSpecs) {
+            String importSpecName = docImportSpec.getAttributeValue("name");
+            String importSpecDeny = docImportSpec.getAttributeValue("deny");
+            String importSpecSuggest = docImportSpec.getAttributeValue("suggest");
+            
+            ImportSpec newImportSpec = new ImportSpec(importSpecName, importSpecDeny, importSpecSuggest);
+            importSpecs.add(newImportSpec);
+        }
+        
+        return importSpecs;
+    }
+
+    private static Map<String, LayerSpec> readLayerSpecs(Element jarchConfig) {
+        List<Element> docLayerSpecs = jarchConfig.getChildren("layer-spec");
         Map<String, LayerSpec> layerSpecs = new HashMap<String, LayerSpec>();
         
         for (Element docLayerSpec : docLayerSpecs) {

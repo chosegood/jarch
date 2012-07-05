@@ -22,7 +22,6 @@
 package com.boothj5.jarch.ant;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -31,6 +30,7 @@ import org.apache.tools.ant.types.Reference;
 import org.jdom2.JDOMException;
 
 import com.boothj5.jarch.analyser.Analyser;
+import com.boothj5.jarch.analyser.Analysis;
 import com.boothj5.jarch.analyser.RuleSetResult;
 import com.boothj5.jarch.analyser.Violation;
 import com.boothj5.jarch.configuration.JArchConfig;
@@ -84,10 +84,10 @@ public class JArchTask extends Task {
                 log("");
             }
 
-            Analyser analyser = new Analyser(srcPath.list()[0], conf.getLayerSpecs(), conf.getRuleSets());
-            List<RuleSetResult> results = analyser.analyse();
+            Analyser analyser = new Analyser(srcPath.list()[0], conf.getImportSpecs(), conf.getLayerSpecs(), conf.getRuleSets());
+            Analysis analysis = analyser.analyse();
             
-            for (RuleSetResult result : results) {
+            for (RuleSetResult result : analysis.getRuleSetResults()) {
                 log("--> Analysing rule-set \"" + result.getRuleSetName() + "\".");
                 log("");
                 
@@ -105,13 +105,13 @@ public class JArchTask extends Task {
                 }
             }
             
-            if ((analyser.getNumModuleErrors() > 0) || (analyser.getNumLayerErrors() > 0)) {
+            if ((analysis.getNumModuleErrors() > 0) || (analysis.getNumLayerErrors() > 0)) {
                 if (failBuild) {
-                    throw new BuildException("JArch failed, " + analyser.getNumModuleErrors() + " module errors, " + 
-                            analyser.getNumLayerErrors() + " layer errors.");
+                    throw new BuildException("JArch failed, " + analysis.getNumModuleErrors() + " module errors, " + 
+                            analysis.getNumLayerErrors() + " layer errors.");
                 } else {
-                    log("JArch report: " + analyser.getNumModuleErrors() + " module warnings, " + 
-                            analyser.getNumLayerErrors() + " layer warnings.");
+                    log("JArch report: " + analysis.getNumModuleErrors() + " module warnings, " + 
+                            analysis.getNumLayerErrors() + " layer warnings.");
                     
                 }
             }

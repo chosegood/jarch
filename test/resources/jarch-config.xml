@@ -1,5 +1,9 @@
 <jarch-config>
 
+    <import-spec name="string-util" 
+                 deny="org.springframework.util.StringUtils"
+                 suggest="org.apache.commons.lang3"/>
+
     <layer-spec name="spring">
         <layer name="controller">
             <dependency on="facade"/>
