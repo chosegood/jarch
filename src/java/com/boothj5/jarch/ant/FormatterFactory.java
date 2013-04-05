@@ -57,7 +57,6 @@ public class FormatterFactory {
     }
 
     public Formatter getFormatter() {
-        // String allowedTypes = StringUtils.join(Type.values(), ",");
         if (type == null) {
             throw new BuildException("You must specify a formatter type");
         }
