@@ -21,6 +21,9 @@
  */
 package com.boothj5.jarch.analyser;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 public class Violation {
 
     private final String message;
@@ -29,7 +32,8 @@ public class Violation {
     private final String line;
     private final ViolationType type;
 
-    public Violation(final String message, final String clazz, final int lineNumber, final String line, final ViolationType type) {
+    public Violation(final String message, final String clazz, final int lineNumber, final String line,
+            final ViolationType type) {
         this.message = message;
         this.clazz = clazz;
         this.lineNumber = lineNumber;
@@ -59,27 +63,35 @@ public class Violation {
 
     @Override
     public boolean equals(final Object o) {
-        if (o == null) { return false; }
-        if (!(o instanceof Violation)) { return false; }
+        if (o == null || o.getClass() != getClass()) {
+            return false;
+        }
+
+        if (o == this) {
+            return true;
+        }
 
         Violation other = (Violation) o;
-        return this.message.equals(other.getMessage())
-                && this.clazz.equals(other.getClazz())
-                && this.lineNumber == other.getLineNumber()
-                && this.line.equals(other.getLine())
-                && this.type.equals(other.getType());
+        return new EqualsBuilder()
+            .append(this.message, other.getMessage())
+            .append(this.clazz, other.getClazz())
+            .append(this.lineNumber, other.getLineNumber())
+            .append(this.line, other.getLine())
+            .append(this.type, other.getType())
+            .append(this.message, other.getMessage())
+            .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int hash = 1;
-        hash = hash * 17 + (this.message == null ? 0 : this.message.hashCode());
-        hash = hash * 3 + (this.clazz == null ? 0 : this.clazz.hashCode());
-        hash = hash * 5 + this.lineNumber;
-        hash = hash * 13 + (this.line == null ? 0 : this.line.hashCode());
-        hash = hash * 3 + (this.type == null ? 0 : this.type.hashCode());
-
-        return hash;
+        return new HashCodeBuilder()
+        .append(this.message)
+        .append(this.clazz)
+        .append(this.lineNumber)
+        .append(this.line)
+        .append(this.type)
+        .append(this.message)
+        .toHashCode();
     }
 
 }
