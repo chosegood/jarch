@@ -23,6 +23,7 @@ package com.boothj5.jarch.analyser;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class Violation {
 
@@ -91,15 +92,27 @@ public class Violation {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder()
-            .append(this.message)
-            .append(this.clazz)
-            .append(this.lineNumber)
-            .append(this.line)
-            .append(this.type)
-            .append(this.message)
-            .append(this.relativeFileName)
-            .toHashCode();
+        int hash = 1;
+        hash = hash * 17 + (this.message == null ? 0 : this.message.hashCode());
+        hash = hash * 3 + (this.clazz == null ? 0 : this.clazz.hashCode());
+        hash = hash * 5 + this.lineNumber;
+        hash = hash * 13 + (this.line == null ? 0 : this.line.hashCode());
+        hash = hash * 3 + (this.type == null ? 0 : this.type.hashCode());
+        hash = hash * 5 + (this.relativeFileName == null ? 0 : this.relativeFileName.hashCode());
+
+        return hash;
+    }
+
+    @Override
+    public String toString() {
+        String msg = "Violation::";
+            msg = msg + " type[" +this.type + "]";
+            msg = msg + " class[" +this.clazz + "]";
+            msg = msg + " file[" +this.relativeFileName + "]";
+            msg = msg + " line[" +this.line + "]";
+            msg = msg + " lineNumber[" +this.lineNumber + "]";
+            msg = msg + " message[" +this.message + "]";
+            return msg;
     }
 
 }
