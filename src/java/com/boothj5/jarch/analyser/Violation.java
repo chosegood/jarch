@@ -76,12 +76,12 @@ public class Violation {
         }
 
         Violation other = (Violation) o;
-        return this.clazz == other.clazz
-                && this.line == other.line
+        return this.message == other.message
+                && this.clazz == other.clazz
                 && this.lineNumber == other.lineNumber
-                && this.message == other.message
-                && this.relativeFileName == other.relativeFileName
-                && this.type == other.type;
+                && this.line == other.line
+                && this.type == other.type
+                && this.relativeFileName == other.relativeFileName;
     }
 
     @Override
