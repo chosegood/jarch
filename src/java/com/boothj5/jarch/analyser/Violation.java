@@ -31,14 +31,16 @@ public class Violation {
     private final int lineNumber;
     private final String line;
     private final ViolationType type;
+    private final String relativeFileName;
 
     public Violation(final String message, final String clazz, final int lineNumber, final String line,
-            final ViolationType type) {
+            final ViolationType type, final String relativeFileName) {
         this.message = message;
         this.clazz = clazz;
         this.lineNumber = lineNumber;
         this.line = line;
         this.type = type;
+        this.relativeFileName = relativeFileName;
     }
 
     public String getMessage() {
@@ -61,6 +63,10 @@ public class Violation {
         return type;
     }
 
+    public String getRelativeFileName() {
+        return relativeFileName;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (o == null || o.getClass() != getClass()) {
@@ -79,19 +85,21 @@ public class Violation {
             .append(this.line, other.getLine())
             .append(this.type, other.getType())
             .append(this.message, other.getMessage())
+            .append(this.relativeFileName, other.getRelativeFileName())
             .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
-        .append(this.message)
-        .append(this.clazz)
-        .append(this.lineNumber)
-        .append(this.line)
-        .append(this.type)
-        .append(this.message)
-        .toHashCode();
+            .append(this.message)
+            .append(this.clazz)
+            .append(this.lineNumber)
+            .append(this.line)
+            .append(this.type)
+            .append(this.message)
+            .append(this.relativeFileName)
+            .toHashCode();
     }
 
 }
