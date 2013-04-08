@@ -81,8 +81,10 @@ public class JarchConsoleFormatter implements Formatter {
         for (Violation violation : result.getViolations()) {
             task.log(violation.getMessage());
             task.log("  -> " + violation.getClazz() + ":");
+            task.log("         File " + violation.getRelativeFileName());
             task.log("         Line " + violation.getLineNumber() + ": " + violation.getLine());
         }
         task.log("");
     }
+
 }

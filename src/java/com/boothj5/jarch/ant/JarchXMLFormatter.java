@@ -76,9 +76,10 @@ public class JarchXMLFormatter implements Formatter {
 
         for (Violation violation : result.getViolations()) {
             sb.append("<violation")
-                    .append(" message=\"").append(violation.getMessage()).append("\"")
                     .append(" type=\"").append(violation.getType()).append("\"")
+                    .append(" message=\"").append(violation.getMessage()).append("\"")
                     .append(" class=\"").append(violation.getClazz()).append("\"")
+                    .append(" file=\"").append(violation.getRelativeFileName()).append("\"")
                     .append(" lineNumber=\"").append(violation.getLineNumber()).append("\"")
                     .append(" line=\"").append(violation.getLine()).append("\"").append("/>\n");
         }
