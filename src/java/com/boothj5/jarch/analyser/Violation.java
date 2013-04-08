@@ -79,15 +79,12 @@ public class Violation {
         }
 
         Violation other = (Violation) o;
-        return new EqualsBuilder()
-            .append(this.message, other.getMessage())
-            .append(this.clazz, other.getClazz())
-            .append(this.lineNumber, other.getLineNumber())
-            .append(this.line, other.getLine())
-            .append(this.type, other.getType())
-            .append(this.message, other.getMessage())
-            .append(this.relativeFileName, other.getRelativeFileName())
-            .isEquals();
+        return this.clazz == other.clazz
+                && this.line == other.line
+                && this.lineNumber == other.lineNumber
+                && this.message == other.message
+                && this.relativeFileName == other.relativeFileName
+                && this.type == other.type;
     }
 
     @Override
