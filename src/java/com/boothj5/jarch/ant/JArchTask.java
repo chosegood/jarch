@@ -82,12 +82,12 @@ public class JArchTask extends Task {
             if ((analyser.getNumModuleErrors() > 0) || (analyser.getNumLayerErrors() > 0)) {
                 final long totalErrors = analyser.getNumModuleErrors() + analyser.getNumLayerErrors();
                 if (failBuild) {
-                    String errorMessage = "JArch failed with [" + totalErrors + "] errors, "
-                            + " module errors[" + analyser.getNumModuleErrors() + "]."
-                            + " layer errors[" + analyser.getNumLayerErrors() + "].";
+                    String errorMessage = "JArch report [" + totalErrors + "] warnings: "
+                            + " module warnings[" + analyser.getNumModuleErrors() + "]."
+                            + " layer warnings[" + analyser.getNumLayerErrors() + "].";
                     throw new BuildException(errorMessage);
                 } else {
-                    String errorMessage = "JArch report: [" + totalErrors + "] warnings, "
+                    String errorMessage = "JArch report [" + totalErrors + "] warnings: "
                             + " module warnings[" + analyser.getNumModuleErrors() + "]."
                             + " layer warnings[" + analyser.getNumLayerErrors() + "].";
                     log(errorMessage);
