@@ -80,15 +80,16 @@ public class JArchTask extends Task {
             logResults(results);
 
             if ((analyser.getNumModuleErrors() > 0) || (analyser.getNumLayerErrors() > 0)) {
+                final long totalErrors = analyser.getNumModuleErrors() + analyser.getNumLayerErrors();
                 if (failBuild) {
-                    final long totalErrors = analyser.getNumModuleErrors() + analyser.getNumLayerErrors();
                     String errorMessage = "JArch failed with [" + totalErrors + "] errors, "
                             + " module errors[" + analyser.getNumModuleErrors() + "]."
                             + " layer errors[" + analyser.getNumLayerErrors() + "].";
                     throw new BuildException(errorMessage);
                 } else {
-                    String errorMessage = "JArch report: " + analyser.getNumModuleErrors() + " module warnings, "
-                            + analyser.getNumLayerErrors() + " layer warnings.";
+                    String errorMessage = "JArch report: [" + totalErrors + "] warnings, "
+                            + " module warnings[" + analyser.getNumModuleErrors() + "]."
+                            + " layer warnings[" + analyser.getNumLayerErrors() + "].";
                     log(errorMessage);
                 }
             }
