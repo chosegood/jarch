@@ -82,14 +82,14 @@ public class JArchTask extends Task {
             if ((analyser.getNumModuleErrors() > 0) || (analyser.getNumLayerErrors() > 0)) {
                 final long totalErrors = analyser.getNumModuleErrors() + analyser.getNumLayerErrors();
                 if (failBuild) {
-                    String errorMessage = "JArch report [" + totalErrors + "] warnings: "
-                            + " module warnings[" + analyser.getNumModuleErrors() + "]."
-                            + " layer warnings[" + analyser.getNumLayerErrors() + "].";
+                    String errorMessage = "JArch report: " + totalErrors + " total warnings ("
+                            + analyser.getNumModuleErrors() + " module warnings, "
+                            + analyser.getNumLayerErrors() + " layer warnings)";
                     throw new BuildException(errorMessage);
                 } else {
-                    String errorMessage = "JArch report [" + totalErrors + "] warnings: "
-                            + " module warnings[" + analyser.getNumModuleErrors() + "]."
-                            + " layer warnings[" + analyser.getNumLayerErrors() + "].";
+                    String errorMessage = "JArch report: " + totalErrors + " total warnings ("
+                            + analyser.getNumModuleErrors() + " module warnings, "
+                            + analyser.getNumLayerErrors() + " layer warnings)";
                     log(errorMessage);
                 }
             }
