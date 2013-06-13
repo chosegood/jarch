@@ -9,7 +9,7 @@
     <property name="docs" location="docs" />
     <property name="dist" location="dist" />
     <property name="distfile.name" value="jarch" />
-    <property name="distfile.version" value="0.1.7" />
+    <property name="distfile.version" value="0.1.8" />
 
     <path id="compile-classpath">
         <pathelement location="${lib}/commons-lang3-3.1.jar"/>

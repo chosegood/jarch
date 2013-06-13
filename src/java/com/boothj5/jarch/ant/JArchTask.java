@@ -1,8 +1,8 @@
-/* 
+/*
  * JArchTask.java
  *
  * Copyright (C) 2012 James Booth <boothj5@gmail.com>
- * 
+ *
  * This file is part of JArch.
  *
  * JArch is free software: you can redistribute it and/or modify
@@ -81,8 +81,10 @@ public class JArchTask extends Task {
 
             if ((analyser.getNumModuleErrors() > 0) || (analyser.getNumLayerErrors() > 0)) {
                 if (failBuild) {
-                    String errorMessage = "JArch failed, " + analyser.getNumModuleErrors() + " module errors, "
-                            + analyser.getNumLayerErrors() + " layer errors.";
+                    final long totalErrors = analyser.getNumModuleErrors() + analyser.getNumLayerErrors();
+                    String errorMessage = "JArch failed with [" + totalErrors + "] errors, "
+                            + " module errors[" + analyser.getNumModuleErrors() + "]."
+                            + " layer errors[" + analyser.getNumLayerErrors() + "].";
                     throw new BuildException(errorMessage);
                 } else {
                     String errorMessage = "JArch report: " + analyser.getNumModuleErrors() + " module warnings, "
